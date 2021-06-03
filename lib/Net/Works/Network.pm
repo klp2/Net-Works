@@ -98,12 +98,12 @@ sub new_from_string {
     my $class = shift;
     my %p     = @_;
 
-    die 'undef is not a valid IP network' unless defined $p{string};
+    die '\'undef\' is not a valid IP network' unless defined $p{string};
 
     my ( $address, $prefix_length ) = split /\//, $p{string}, 2;
 
     my $version
-        = $p{version} ? $p{version}
+        = $p{version}                     ? $p{version}
         : inet_pton( AF_INET6, $address ) ? 6
         :                                   4;
 
@@ -114,7 +114,7 @@ sub new_from_string {
 
     my $integer = _string_address_to_integer( $address, $version );
 
-    confess "$p{string} is not a valid IP network"
+    confess "'$p{string}' is not a valid IP network"
         unless defined $integer;
 
     return $class->new(

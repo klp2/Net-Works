@@ -70,6 +70,7 @@ use Net::Works::Network;
 {
     for my $bad_str (
         undef,
+        ' 1.2.3.0',
         qw( -1 1.1 a-string google.com 1.2.3.555 a.3.4.5 ),
     ) {
 
@@ -82,8 +83,8 @@ use Net::Works::Network;
                     version => 4,
                 );
             },
-            qr/\Q$str_val is not a valid IPv4 address/,
-            "Net::Works::Address->new_from_string() died with $str_val as string (v4)"
+            qr/\Q'$str_val' is not a valid IPv4 address/,
+            "Net::Works::Address->new_from_string() died with '$str_val' as string (v4)"
         );
 
         $str_val = "$bad_str/20" if defined $bad_str;
@@ -94,8 +95,8 @@ use Net::Works::Network;
                     version => 4,
                 );
             },
-            qr/\Q$str_val is not a valid IP network/,
-            "Net::Works::Network->new_from_string() died with $str_val as string (v4)"
+            qr/\Q'$str_val' is not a valid IP network/,
+            "Net::Works::Network->new_from_string() died with '$str_val' as string (v4)"
         );
     }
 }
@@ -103,6 +104,7 @@ use Net::Works::Network;
 {
     for my $bad_str (
         undef,
+        ' ffff::',
         qw( -1 1.1 a-string google.com 1.2.3.555 a.3.4.5 fffff:: abcd::1234::4321 g123::1234 ),
     ) {
 
@@ -115,8 +117,8 @@ use Net::Works::Network;
                     version => 6,
                 );
             },
-            qr/\Q$str_val is not a valid IPv6 address/,
-            "Net::Works::Address->new_from_string() died with $str_val as string (v4)"
+            qr/\Q'$str_val' is not a valid IPv6 address/,
+            "Net::Works::Address->new_from_string() died with '$str_val' as string (v4)"
         );
 
         $str_val = "$bad_str/20" if defined $bad_str;
@@ -127,16 +129,16 @@ use Net::Works::Network;
                     version => 6,
                 );
             },
-            qr/\Q$str_val is not a valid IP network/,
-            "Net::Works::Network->new_from_string() died with $str_val as string (v4)"
+            qr/\Q'$str_val' is not a valid IP network/,
+            "Net::Works::Network->new_from_string() died with '$str_val' as string (v4)"
         );
     }
 }
 
 {
     for my $bad (
-        '1.1.1.1/-1', '1.1.1.1/33', '1.1.1.0/24;', "1.1.1.0/24\n",
-        '1.1.1.1/',   '1.1.1.1',    '11.0.0.0/10/10',
+        '1.1.1.1/-1',  '1.1.1.1/33', '1.1.1.0/24;', "1.1.1.0/24\n",
+        '1.1.1.0/24 ', '1.1.1.1/',   '1.1.1.1',     '11.0.0.0/10/10',
     ) {
 
         ## no critic (Subroutines::ProhibitCallsToUnexportedSubs)
@@ -169,7 +171,8 @@ use Net::Works::Network;
     }
 
     for my $bad (
-        '::1/-1', '::1/129', '::1/120;', "::1/120\n", '::1.1.1.1', '::1000',
+        '::1/-1',    '::1/129', '::1/120;', '::1/120 ', "::1/120\n",
+        '::1.1.1.1', '::1000',
     ) {
 
         ## no critic (Subroutines::ProhibitCallsToUnexportedSubs)

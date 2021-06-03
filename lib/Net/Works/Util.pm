@@ -65,11 +65,11 @@ sub _validate_ip_string {
 
     my $str_val = defined $str ? $str : 'undef';
     if ( $version == 4 ) {
-        confess("$str_val is not a valid IPv4 address")
+        confess("'$str_val' is not a valid IPv4 address")
             unless defined $str && defined inet_pton( AF_INET, $str );
     }
     else {
-        confess("$str_val is not a valid IPv6 address")
+        confess("'$str_val' is not a valid IPv6 address")
             unless defined $str && defined inet_pton( AF_INET6, $str );
     }
 }

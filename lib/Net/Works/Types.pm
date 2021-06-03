@@ -76,7 +76,7 @@ our @EXPORT_OK = qw(
         q{
 ( !ref $_[0] && defined $_[0] && $_[0] =~ /^[0-9]+\z/ && $_[0] <= 128 )
     or Net::Works::Types::_confess(
-    '%s is not a valid IP network prefix length (0-128)',
+    "'%s is not a valid IP network prefix length (0-128)",
     defined $_[0] ? $_[0] : 'undef'
     );
 }
